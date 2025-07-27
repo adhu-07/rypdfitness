@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rypd - Unleash Your Potential</title>
+    <!-- Google Fonts: Orbitron for headings, Lato for body -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind CSS Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Cosmic theme colors
+                        rypdBlue: '#1A1A2E',          /* Deep Dark Blue/Almost Black - Main Background */
+                        rypdDarkBlue: '#2E2E4A',      /* Darker Blue-Gray - Card/Container Background */
+                        rypdMidBlue: '#3A5068',       /* Medium Blue-Gray - Inner Backgrounds/Borders */
+                        rypdWhite: '#E0E0E0',         /* Light Gray - Main Text */
+                        rypdLightGray: '#A0A0B0',     /* Medium Light Gray - Secondary Text/Icons */
+                        rypdAccentPrimaryFrom: '#6A0DAD', /* Purple for gradient start */
+                        rypdAccentPrimaryTo: '#00FFFF',   /* Blue/Cyan for gradient end */
+                        rypdAccentRed: '#FF0000',       /* Red for likes/alerts */
+                        rypdAccentMagenta: '#FF00FF',   /* Magenta for some highlights */
+                        rypdAccentGreen: '#32CD32',     /* Lime Green for some highlights */
+                        rypdAccentGold: '#FFD700',      /* Gold for some highlights */
+                        rypdAccentOrange: '#FF4500',    /* Orange for some highlights */
+                        // Standard Tailwind colors used in gradients
+                        'purple-600': '#9333ea',
+                        'blue-500': '#3b82f6',
+                        'purple-500': '#a855f7',
+                        'red-500': '#ef4444',
+                        'green-500': '#22c55e',
+                        'yellow-500': '#eab308',
+                        'orange-500': '#f97316',
+                        'cyan-500': '#06b6d4',
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        lato: ['Lato', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS for global styles and animations -->
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--tw-colors-rypdBlue);
+            color: var(--tw-colors-rypdWhite);
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        h1, h2, h3 {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Cosmic Background Effect */
+        .cosmic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                        rgba(106, 13, 173, 0.05) 0%, /* rypdAccentPrimaryFrom with opacity */
+                        rgba(0, 255, 255, 0.03) 30%,  /* rypdAccentPrimaryTo with opacity */
+                        rgba(26, 26, 46, 0.8) 70%); /* Fade to rypdBlue */
+            animation: cosmicPulse 20s infinite alternate;
+            background-size: 200% 200%;
+            background-position: center center;
+            z-index: -1; /* Behind content */
+        }
+        @keyframes cosmicPulse {
+            0% { background-size: 200% 200%; background-position: 40% 40%; }
+            50% { background-size: 220% 220%; background-position: 60% 60%; }
+            100% { background-size: 200% 200%; background-position: 40% 40%; }
+        }
+        .cosmic-bg::after { /* Starlight layer */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.8),
+                100vw 100vh 0 1px rgba(255, 255, 255, 0.8);
+            animation: starlight 100s linear infinite;
+            z-index: -1;
+        }
+        @keyframes starlight {
+            from { transform: translate(0, 0); }
+            to { transform: translate(-100vw, -100vh); }
+        }
+
+        /* Hero Text Animations */
+        .fade-slide-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeSlideUp 0.8s ease-out forwards;
+        }
+        @keyframes fadeSlideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Feature Section Scroll Animations */
+        .feature-item.animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .feature-item.animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Button Hover Glow */
+        .btn-glow:hover {
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), 0 0 30px rgba(0, 255, 255, 0.4);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        .btn-glow {
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        /* Character-inspired subtle animations */
+        .reed-focus:focus { animation: stretchInput 0.3s ease-out forwards; }
+        @keyframes stretchInput { 0% { transform: scaleY(1); } 50% { transform: scaleY(1.02); } 100% { transform: scaleY(1); } }
+
+        .sue-hover-shimmer:hover::before { transform: translateX(200%); opacity: 1; }
+        .sue-hover-shimmer::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: transform 0.5s ease-out; opacity: 0; pointer-events: none;
+        }
+
+        .johnny-hover-glow:hover { box-shadow: 0 0 15px 5px rgba(255, 165, 0, 0.6), 0 0 30px 10px rgba(255, 69, 0, 0.4); transition: box-shadow 0.3s ease-in-out; }
+        .johnny-hover-glow { transition: box-shadow 0.3s ease-in-out; }
+
+        .ben-active-impact:active { transform: scale(0.98); box-shadow: inset 0 0 10px rgba(0,0,0,0.5); transition: all 0.1s ease-out; }
+        .ben-active-impact { transition: all 0.1s ease-out; }
+
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Cosmic Background Layer -->
+    <div class="cosmic-bg"></div>
+
+    <!-- Header (Optional, but good for branding) -->
+    <header class="w-full max-w-6xl mx-auto p-4 flex justify-center items-center z-10">
+        <h1 class="text-3xl font-orbitron font-bold text-rypdWhite">Rypd</h1>
+    </header>
+
+    <!-- Main Content Wrapper -->
+    <main class="flex-grow w-full max-w-6xl mx-auto p-4 sm:p-6 md:p-8 z-10">
+
+        <!-- Hero Section -->
+        <section class="min-h-[calc(100vh-160px)] flex flex-col items-center justify-center text-center py-16 sm:py-20 md:py-24 relative">
+            <h2 class="text-4xl sm:text-5xl md:text-6xl font-orbitron font-bold text-rypdWhite mb-4 fade-slide-up" style="animation-delay: 0.2s;">
+                Unleash Your <span class="bg-gradient-to-r from-rypdAccentPrimaryFrom to-rypdAccentPrimaryTo text-transparent bg-clip-text">Potential</span>
+            </h2>
+            <p class="text-lg sm:text-xl md:text-2xl text-rypdLightGray mb-10 fade-slide-up" style="animation-delay: 0.4s;">
+                Track. Connect. Transform. Your Ultimate Fitness Companion.
+            </p>
+            <a href="https://adhu-07.github.io/rypd-demof4/" target="_blank" class="inline-block bg-gradient-to-r from-rypdAccentPrimaryFrom to-rypdAccentPrimaryTo text-rypdWhite py-3 px-8 rounded-full font-semibold text-lg shadow-lg hover:from-purple-700 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 btn-glow fade-slide-up" style="animation-delay: 0.6s;">
+                Launch Rypd App
+            </a>
+        </section>
+
+        <!-- About Rypd Section -->
+        <section class="bg-rypdDarkBlue rounded-xl shadow-lg p-6 sm:p-8 md:p-10 mb-16 feature-item animate-on-scroll">
+            <h3 class="text-3xl font-orbitron font-semibold text-rypdWhite mb-6 text-center">About Rypd</h3>
+            <p class="text-rypdWhite text-lg leading-relaxed text-center">
+                Rypd is more than just a fitness tracker; it's your personal cosmic journey to a healthier, stronger you. We combine cutting-edge AI with a vibrant community to provide personalized guidance, track your progress, and keep you motivated every step of the way.
+            </p>
+        </section>
+
+        <!-- Key Features Section -->
+        <section class="mb-16">
+            <h3 class="text-3xl font-orbitron font-semibold text-rypdWhite mb-10 text-center">Key Features</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <!-- Feature 1: Progress Tracking -->
+                <div class="bg-rypdDarkBlue rounded-xl shadow-lg p-6 feature-item animate-on-scroll">
+                    <div class="text-rypdAccentPrimaryTo mb-4 text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    </div>
+                    <h4 class="text-xl font-orbitron font-semibold text-rypdWhite mb-3 text-center">Intelligent Progress Tracking</h4>
+                    <p class="text-rypdLightGray text-center">
+                        Visualize your fitness evolution with intuitive, dynamic charts and detailed logs. Every workout, every meal, every milestone recorded and presented for clear insights into your journey.
+                    </p>
+                </div>
+
+                <!-- Feature 2: Rypd AI Coach -->
+                <div class="bg-rypdDarkBlue rounded-xl shadow-lg p-6 feature-item animate-on-scroll">
+                    <div class="text-rypdAccentPrimaryTo mb-4 text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><path d="M22 17a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3"/><path d="M6 15h2"/><path d="M10 15h2"/><path d="M14 15h2"/></svg>
+                    </div>
+                    <h4 class="text-xl font-orbitron font-semibold text-rypdWhite mb-3 text-center">Rypd AI Personal Coach</h4>
+                    <p class="text-rypdLightGray text-center">
+                        Harness the power of AI for personalized workout plans, smart nutrition advice, and real-time guidance. Your intelligent companion for optimal health.
+                    </p>
+                </div>
+
+                <!-- Feature 3: Interconnected Community -->
+                <div class="bg-rypdDarkBlue rounded-xl shadow-lg p-6 feature-item animate-on-scroll">
+                    <div class="text-rypdAccentPrimaryTo mb-4 text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <h4 class="text-xl font-orbitron font-semibold text-rypdWhite mb-3 text-center">Vibrant Community Hub</h4>
+                    <p class="text-rypdLightGray text-center">
+                        Connect with fellow fitness enthusiasts, share your achievements, find workout partners, and draw inspiration from a global network of users.
+                    </p>
+                </div>
+
+                <!-- Feature 4: Dynamic Challenges -->
+                <div class="bg-rypdDarkBlue rounded-xl shadow-lg p-6 feature-item animate-on-scroll">
+                    <div class="text-rypdAccentPrimaryTo mb-4 text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <h4 class="text-xl font-orbitron font-semibold text-rypdWhite mb-3 text-center">Engaging Fitness Challenges</h4>
+                    <p class="text-rypdLightGray text-center">
+                        Push your limits and earn exclusive badges by participating in diverse fitness challenges tailored to all levels. Compete, achieve, and get rewarded!
+                    </p>
+                </div>
+
+                <!-- Feature 5: Comprehensive Nutrition -->
+                <div class="bg-rypdDarkBlue rounded-xl shadow-lg p-6 feature-item animate-on-scroll">
+                    <div class="text-rypdAccentPrimaryTo mb-4 text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2H9a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h2"/><path d="M13 22h2a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"/><path d="M13 2v20"/><path d="M7 18h6"/><path d="M7 6h6"/></svg>
+                    </div>
+                    <h4 class="text-xl font-orbitron font-semibold text-rypdWhite mb-3 text-center">Smart Nutrition Tracking</h4>
+                    <p class="text-rypdLightGray text-center">
+                        Log meals, track macronutrients, and discover a universe of healthy recipes. Fuel your body intelligently with Rypd's comprehensive nutrition tools.
+                    </p>
+                </div>
+
+                <!-- Feature 6: Certified Studies -->
+                <div class="bg-rypdDarkBlue rounded-xl shadow-lg p-6 feature-item animate-on-scroll">
+                    <div class="text-rypdAccentPrimaryTo mb-4 text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2 0 0 1 0-5H20"/></svg>
+                    </div>
+                    <h4 class="text-xl font-orbitron font-semibold text-rypdWhite mb-3 text-center">Evidence-Based Insights</h4>
+                    <p class="text-rypdLightGray text-center">
+                        Access a curated library of certified fitness and health studies. Make informed decisions powered by scientific research, right within the app.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Final Call to Action -->
+        <section class="bg-gradient-to-r from-rypdAccentPrimaryFrom to-rypdAccentPrimaryTo rounded-xl shadow-lg p-8 sm:p-10 md:p-12 text-center mb-16 feature-item animate-on-scroll">
+            <h3 class="text-3xl font-orbitron font-bold text-rypdWhite mb-6">Ready to Transform Your Fitness Journey?</h3>
+            <a href="https://adhu-07.github.io/rypd-demof4/" target="_blank" class="inline-block bg-rypdBlue text-rypdWhite py-3 px-8 rounded-full font-semibold text-lg shadow-lg hover:bg-rypdDarkBlue transition-colors duration-300 transform hover:scale-105 btn-glow">
+                Launch Rypd App Now
+            </a>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full max-w-6xl mx-auto p-4 text-center text-rypdLightGray text-sm z-10">
+        <p>&copy; 2025 Rypd. All rights reserved. | Designed for Cosmic Fitness.</p>
+    </footer>
+
+    <!-- JavaScript for animations and dynamic effects -->
+    <script>
+        // Mousemove effect for cosmic background
+        document.body.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth * 100;
+            const y = e.clientY / window.innerHeight * 100;
+            document.documentElement.style.setProperty('--mouse-x', `${x}%`);
+            document.documentElement.style.setProperty('--mouse-y', `${y}%`);
+        });
+
+        // Intersection Observer for scroll animations
+        const featureItems = document.querySelectorAll('.feature-item');
+        const observerOptions = {
+            root: null, /* viewport */
+            rootMargin: '0px',
+            threshold: 0.2 /* 20% of item visible */
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); /* Only animate once */
+                }
+            });
+        }, observerOptions);
+
+        featureItems.forEach(item => {
+            observer.observe(item);
+        });
+    </script>
+</body>
+</html>
